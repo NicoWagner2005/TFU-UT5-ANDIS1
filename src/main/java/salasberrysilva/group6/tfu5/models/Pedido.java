@@ -41,11 +41,12 @@ public class Pedido {
         this.productos.add(product);
     }
 
-    public double getTotal() {
-        double total = 0
-        for (Product product : productos) {
-            total += product.getPrice();
-        }
-        return total;
+
+   public double calcularTotal() {
+    double total = 0;
+    for (Product product : productos) {
+        total += product.price();
     }
+    return total;
+}
 }

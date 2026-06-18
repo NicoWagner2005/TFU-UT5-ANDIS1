@@ -91,5 +91,11 @@ public class PedidoService {
         return new HashMap<>(pedidos);
     }
 
+    public Pedido marcarPedidoListo(int pedidoId) {
+        Pedido pedido = obtenerPedido(pedidoId);
+        pedido.marcarListo();
+        return pedido;
+    }
+
     
 }

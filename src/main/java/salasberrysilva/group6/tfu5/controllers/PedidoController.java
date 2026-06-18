@@ -31,4 +31,10 @@ public class PedidoController {
     public Pedido confirmarCarrito(@PathVariable int carritoId) {
         return pedidoService.confirmarCarrito(carritoId);
     }
+
+    @GetMapping("/pedido/{pedidoId}/total")
+    public double getTotal(@PathVariable int pedidoId) {
+        return pedidoService.calcularTotal(pedidoId);
+        
+}
 }

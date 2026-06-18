@@ -37,16 +37,25 @@ public class Pedido {
         this.estado = EstadoPedido.LISTO;
     }
 
+    public void cancelar() {
+        this.estado = EstadoPedido.CANCELADO;
+    }
+
+    public void marcarEntregado() {
+        this.estado = EstadoPedido.ENTREGADO;
+    }
+
     public void addProduct(Product product) {
         this.productos.add(product);
     }
 
+    public double calcularTotal() {
+        double total = 0;
 
-   public double calcularTotal() {
-    double total = 0;
-    for (Product product : productos) {
-        total += product.price();
+        for (Product product : productos) {
+            total += product.price();
+        }
+
+        return total;
     }
-    return total;
-}
 }

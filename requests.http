@@ -1,0 +1,46 @@
+@baseUrl = http://localhost:8080
+
+### Listar productos
+GET {{baseUrl}}/products
+
+### Crear carrito
+POST {{baseUrl}}/carrito?clientName=Nicolas
+
+### Agregar Burger al carrito 1
+POST {{baseUrl}}/carrito/1/productos/1
+
+### Agregar Fries al carrito 1
+POST {{baseUrl}}/carrito/1/productos/2
+
+### Confirmar carrito 1 y crear pedido
+POST {{baseUrl}}/carrito/1/confirmar
+
+### Listar pedidos
+GET {{baseUrl}}/pedidos
+
+### Obtener pedido 1
+GET {{baseUrl}}/pedidos/1
+
+### Calcular total del pedido 1
+GET {{baseUrl}}/pedido/1/total
+
+### Marcar pedido 1 como listo
+POST {{baseUrl}}/pedidos/1/marcar-listo
+
+### Entregar pedido 1
+POST {{baseUrl}}/pedidos/1/entregar
+
+### Crear otro carrito para probar cancelacion
+POST {{baseUrl}}/carrito?clientName=Sofia
+
+### Confirmar carrito 2 y crear pedido 2
+POST {{baseUrl}}/carrito/2/confirmar
+
+### Cancelar pedido 2
+POST {{baseUrl}}/pedidos/2/cancelar
+
+### Intentar entregar pedido cancelado
+POST {{baseUrl}}/pedidos/2/entregar
+
+### Intentar entregar pedido inexistente
+POST {{baseUrl}}/pedidos/999/entregar

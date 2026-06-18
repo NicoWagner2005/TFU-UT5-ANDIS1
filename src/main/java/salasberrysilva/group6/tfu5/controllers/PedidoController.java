@@ -49,8 +49,18 @@ public class PedidoController {
         return pedidoService.marcarPedidoListo(pedidoId);
     }
 
+    @PostMapping("/pedidos/{pedidoId}/cancelar")
+    public Pedido cancelarPedido(@PathVariable int pedidoId) {
+        return pedidoService.cancelarPedido(pedidoId);
+    }
+
+    @PostMapping("/pedidos/{pedidoId}/entregar")
+    public Pedido entregarPedido(@PathVariable int pedidoId) {
+        return pedidoService.entregarPedido(pedidoId);
+    }
+
     @GetMapping("/pedido/{pedidoId}/total")
     public double calcularTotal(@PathVariable int pedidoId) {
-    return pedidoService.calcularTotal(pedidoId);
-}
+        return pedidoService.calcularTotal(pedidoId);
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import salasberrysilva.group6.tfu5.models.Carrito;
+import salasberrysilva.group6.tfu5.models.EstadoPedido;
 import salasberrysilva.group6.tfu5.models.Pedido;
 import salasberrysilva.group6.tfu5.models.Product;
 
@@ -68,12 +69,8 @@ public class PedidoService {
     }
 
     public Pedido cancelarPedido(int pedidoId) {
-        Pedido pedido = pedidos.remove(pedidoId);
-
-        if (pedido == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido no encontrado");
-        }
-
+        Pedido pedido = obtenerPedido(pedidoId);
+        pedido.cancelar();
         return pedido;
     }
 
@@ -97,5 +94,23 @@ public class PedidoService {
         return pedido;
     }
 
-    
+    public Pedido entregarPedido(int pedidoId) {
+        Pedido pedido = obtenerPedido(pedidoId);
+
+        if (pedido.getEstado() == EstadoPedido.CANCELADO) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede entregar un pedido cancelado");
+        }
+
+        if (pedido.getEstado() != EstadoPedido.LISTO) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Solo se pueden entregar pedidos listos");
+        }
+
+        pedido.marcarEntregado();
+        return pedido;
+    }
+
+    public double calcularTotal(int pedidoId) {
+        Pedido pedido = obtenerPedido(pedidoId);
+        return pedido.calcularTotal();
+    }
 }

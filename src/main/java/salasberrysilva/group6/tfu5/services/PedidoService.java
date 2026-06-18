@@ -2,9 +2,11 @@ package salasberrysilva.group6.tfu5.services;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import salasberrysilva.group6.tfu5.models.Carrito;
 import salasberrysilva.group6.tfu5.models.Pedido;
 import salasberrysilva.group6.tfu5.models.Product;
@@ -14,6 +16,7 @@ public class PedidoService {
 
     private final ProductService productService;
     private final Map<Integer, Carrito> carritos = new HashMap<>();
+    private final Map<Integer, Pedido> pedidos = new HashMap<>();
     private int nextPedidoId = 1;
     private int nextCarritoId = 1;
 
@@ -49,7 +52,9 @@ public class PedidoService {
     }
 
     public Pedido crearPedido(String clientName) {
-        return new Pedido(nextPedidoId++, clientName);
+        Pedido pedido = new Pedido(nextPedidoId++, clientName);
+        pedidos.put(pedido.getId(), pedido);
+        return pedido;
     }
 
     private Carrito getCarrito(int carritoId) {
@@ -60,5 +65,15 @@ public class PedidoService {
         }
 
         return carrito;
+    }
+
+    public Pedido cancelarPedido(int pedidoId) {
+        Pedido pedido = pedidos.remove(pedidoId);
+
+        if (pedido == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido no encontrado");
+        }
+
+        return pedido;
     }
 }

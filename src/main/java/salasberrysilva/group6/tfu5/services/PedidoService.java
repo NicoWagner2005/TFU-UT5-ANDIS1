@@ -76,4 +76,20 @@ public class PedidoService {
 
         return pedido;
     }
+
+    public Pedido obtenerPedido(int pedidoId) {
+        Pedido pedido = pedidos.get(pedidoId);
+
+        if (pedido == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido no encontrado");
+        }
+
+        return pedido;
+    }
+
+    public Map<Integer, Pedido> obtenerTodosPedidos() {
+        return new HashMap<>(pedidos);
+    }
+
+    
 }

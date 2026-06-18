@@ -1,0 +1,64 @@
+package salasberrysilva.group6.tfu5.services;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import salasberrysilva.group6.tfu5.models.Carrito;
+import salasberrysilva.group6.tfu5.models.Pedido;
+import salasberrysilva.group6.tfu5.models.Product;
+
+@Service
+public class PedidoService {
+
+    private final ProductService productService;
+    private final Map<Integer, Carrito> carritos = new HashMap<>();
+    private int nextPedidoId = 1;
+    private int nextCarritoId = 1;
+
+    public PedidoService(ProductService productService) {
+        this.productService = productService;
+    }
+
+    public Carrito crearCarrito(String clientName) {
+        Carrito carrito = new Carrito(nextCarritoId++, clientName);
+        carritos.put(carrito.getId(), carrito);
+        return carrito;
+    }
+
+    public Carrito agregarProducto(int carritoId, int productId) {
+        Carrito carrito = getCarrito(carritoId);
+        Product product = productService.getProductById(productId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+
+        carrito.addProduct(product);
+        return carrito;
+    }
+
+    public Pedido confirmarCarrito(int carritoId) {
+        Carrito carrito = getCarrito(carritoId);
+        Pedido pedido = crearPedido(carrito.getClientName());
+
+        for (Product product : carrito.getProductos()) {
+            pedido.addProduct(product);
+        }
+
+        carritos.remove(carritoId);
+        return pedido;
+    }
+
+    public Pedido crearPedido(String clientName) {
+        return new Pedido(nextPedidoId++, clientName);
+    }
+
+    private Carrito getCarrito(int carritoId) {
+        Carrito carrito = carritos.get(carritoId);
+
+        if (carrito == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Carrito no encontrado");
+        }
+
+        return carrito;
+    }
+}

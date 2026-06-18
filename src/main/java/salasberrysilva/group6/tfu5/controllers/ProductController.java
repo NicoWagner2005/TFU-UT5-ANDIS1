@@ -7,11 +7,11 @@ import salasberrysilva.group6.tfu5.services.ProductService;
 import salasberrysilva.group6.tfu5.models.Product;
 
 @RestController
-public class RegistrarPedidoController {
+public class ProductController {
 
     private final ProductService productService;
 
-    public RegistrarPedidoController(ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 

@@ -48,4 +48,9 @@ public class PedidoController {
     public Pedido marcarPedidoListo(@PathVariable int pedidoId) {
         return pedidoService.marcarPedidoListo(pedidoId);
     }
+
+    @GetMapping("/pedido/{pedidoId}/total")
+    public double calcularTotal(@PathVariable int pedidoId) {
+    return pedidoService.calcularTotal(pedidoId);
+}
 }

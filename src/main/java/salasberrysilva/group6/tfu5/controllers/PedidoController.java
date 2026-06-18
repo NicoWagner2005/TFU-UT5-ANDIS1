@@ -2,6 +2,7 @@ package salasberrysilva.group6.tfu5.controllers;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import salasberrysilva.group6.tfu5.models.Carrito;
@@ -30,5 +31,15 @@ public class PedidoController {
     @PostMapping("/carrito/{carritoId}/confirmar")
     public Pedido confirmarCarrito(@PathVariable int carritoId) {
         return pedidoService.confirmarCarrito(carritoId);
+    }
+
+    @GetMapping("/pedidos/{pedidoId}")
+    public Pedido obtenerPedido(@PathVariable int pedidoId) {
+        return pedidoService.obtenerPedido(pedidoId);
+    }
+
+    @GetMapping("/pedidos")
+    public java.util.Map<Integer, Pedido> obtenerTodosPedidos() {
+        return pedidoService.obtenerTodosPedidos();
     }
 }
